@@ -63,9 +63,9 @@ public struct IsCaseMacro: MemberMacro {
                         ///     case test1(String)
                         /// }
                         /// let firstValue = Test.test1("first")
-                        /// firstValue.is(.test1) // returns true
+                        /// firstValue.isCase(.test1) // returns true
                         /// ```
-                        func `is`(_ otherCase: Companion) -> Bool
+                        func isCase(_ otherCase: Companion) -> Bool
                         """
         )) {
             try SwitchExprSyntax("switch (self, otherCase)") {
