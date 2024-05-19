@@ -21,8 +21,8 @@ enum Test: CaseComparable {
 final class IsCaseTests: XCTestCase {
     func testAssertCaseMacro() {
         assertMacroExpansion(
-            "#assertCase(Test.test2(3), Test.test2(4)",
-            expandedSource: "assert(Test.test2(3).is(Test.test2(4)))",
+            "#assertCase(Test.test2(3), .test2)",
+            expandedSource: "assert(Test.test2(3).is(.test2))",
             macros: testMacros
         )
     }
@@ -47,16 +47,6 @@ final class IsCaseTests: XCTestCase {
                     case test2
                 }
             
-                /// Raw case value, independent of associated values
-                var rawCase: Companion {
-                    switch self {
-                    case .test1:
-                        return .test1
-                    case .test2:
-                        return .test2
-                    }
-                }
-            
                 /// Check if an instance of your enum is a particular case
                 ///
                 /// For example,
@@ -66,9 +56,9 @@ final class IsCaseTests: XCTestCase {
                 ///     case test1(String)
                 /// }
                 /// let firstValue = Test.test1("first")
-                /// firstValue.isCase(.test1) // returns true
+                /// firstValue.is(.test1) // returns true
                 /// ```
-                func isCase(_ otherCase: Companion) -> Bool {
+                func `is`(_ otherCase: Companion) -> Bool {
                     switch (self, otherCase) {
                     case (.test1, .test1):
                         return true
@@ -77,22 +67,6 @@ final class IsCaseTests: XCTestCase {
                     default:
                         return false
                     }
-                }
-            
-                /// Check if two instances of your enum have the same case
-                ///
-                /// For example,
-                /// ```
-                /// @IsCase
-                /// enum Test {
-                ///     case test1(String)
-                /// }
-                /// let firstValue = Test.test1("first")
-                /// let secondValue = Test.test1("second")
-                /// firstValue.is(secondValue) // returns true
-                /// ```
-                func `is`(_ otherCase: Self) -> Bool {
-                    rawCase == otherCase.rawCase
                 }
             }
             """,
@@ -128,16 +102,6 @@ final class IsCaseTests: XCTestCase {
                     case test2
                 }
             
-                /// Raw case value, independent of associated values
-                var rawCase: Companion {
-                    switch self {
-                    case .test1:
-                        return .test1
-                    case .test2:
-                        return .test2
-                    }
-                }
-            
                 /// Check if an instance of your enum is a particular case
                 ///
                 /// For example,
@@ -147,9 +111,9 @@ final class IsCaseTests: XCTestCase {
                 ///     case test1(String)
                 /// }
                 /// let firstValue = Test.test1("first")
-                /// firstValue.isCase(.test1) // returns true
+                /// firstValue.is(.test1) // returns true
                 /// ```
-                func isCase(_ otherCase: Companion) -> Bool {
+                func `is`(_ otherCase: Companion) -> Bool {
                     switch (self, otherCase) {
                     case (.test1, .test1):
                         return true
@@ -158,22 +122,6 @@ final class IsCaseTests: XCTestCase {
                     default:
                         return false
                     }
-                }
-            
-                /// Check if two instances of your enum have the same case
-                ///
-                /// For example,
-                /// ```
-                /// @IsCase
-                /// enum Test {
-                ///     case test1(String)
-                /// }
-                /// let firstValue = Test.test1("first")
-                /// let secondValue = Test.test1("second")
-                /// firstValue.is(secondValue) // returns true
-                /// ```
-                func `is`(_ otherCase: Self) -> Bool {
-                    rawCase == otherCase.rawCase
                 }
             }
             """,
@@ -217,16 +165,6 @@ final class IsCaseTests: XCTestCase {
                     case test2
                 }
             
-                /// Raw case value, independent of associated values
-                var rawCase: Companion {
-                    switch self {
-                    case .test1:
-                        return .test1
-                    case .test2:
-                        return .test2
-                    }
-                }
-            
                 /// Check if an instance of your enum is a particular case
                 ///
                 /// For example,
@@ -236,9 +174,9 @@ final class IsCaseTests: XCTestCase {
                 ///     case test1(String)
                 /// }
                 /// let firstValue = Test.test1("first")
-                /// firstValue.isCase(.test1) // returns true
+                /// firstValue.is(.test1) // returns true
                 /// ```
-                func isCase(_ otherCase: Companion) -> Bool {
+                func `is`(_ otherCase: Companion) -> Bool {
                     switch (self, otherCase) {
                     case (.test1, .test1):
                         return true
@@ -247,22 +185,6 @@ final class IsCaseTests: XCTestCase {
                     default:
                         return false
                     }
-                }
-            
-                /// Check if two instances of your enum have the same case
-                ///
-                /// For example,
-                /// ```
-                /// @IsCase
-                /// enum Test {
-                ///     case test1(String)
-                /// }
-                /// let firstValue = Test.test1("first")
-                /// let secondValue = Test.test1("second")
-                /// firstValue.is(secondValue) // returns true
-                /// ```
-                func `is`(_ otherCase: Self) -> Bool {
-                    rawCase == otherCase.rawCase
                 }
             }
             """,

@@ -36,8 +36,9 @@ public macro IsCase() = #externalMacro(module: "IsCaseMacros", type: "IsCaseMacr
 /// #assertCase(flip2, flip3) // assert fails
 /// ```
 @freestanding(expression)
-public macro assertCase<T: CaseComparable>(_ value: T, _ otherValue: T) -> Void = #externalMacro(module: "IsCaseMacros", type: "AssertCaseMacro")
+public macro assertCase<T: CaseComparable>(_ value: T, _ otherValue: T.Companion) -> Void = #externalMacro(module: "IsCaseMacros", type: "AssertCaseMacro")
 
 public protocol CaseComparable {
-    func `is`(_ otherCase: Self) -> Bool
+    associatedtype Companion
+    func `is`(_ otherCase: Companion) -> Bool
 }

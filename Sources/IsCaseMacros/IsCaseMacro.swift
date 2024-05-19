@@ -34,24 +34,6 @@ public struct IsCaseMacro: MemberMacro {
             }
         }
         
-        let rawCase = try VariableDeclSyntax(.init(
-            stringLiteral: """
-                        /// Raw case value, independent of associated values
-                        var rawCase: Companion
-                        """
-        )) {
-            try SwitchExprSyntax("switch self") {
-                for caseName in caseNames {
-                    SwitchCaseSyntax(
-                        """
-                        case .\(raw: caseName):
-                            return .\(raw: caseName)
-                        """
-                    )
-                }
-            }
-        }
-        
         let funcComparison = try FunctionDeclSyntax(.init(
             stringLiteral: """
                         /// Check if an instance of your enum is a particular case
@@ -63,9 +45,9 @@ public struct IsCaseMacro: MemberMacro {
                         ///     case test1(String)
                         /// }
                         /// let firstValue = Test.test1("first")
-                        /// firstValue.isCase(.test1) // returns true
+                        /// firstValue.is(.test1) // returns true
                         /// ```
-                        func isCase(_ otherCase: Companion) -> Bool
+                        func `is`(_ otherCase: Companion) -> Bool
                         """
         )) {
             try SwitchExprSyntax("switch (self, otherCase)") {
@@ -85,32 +67,10 @@ public struct IsCaseMacro: MemberMacro {
                 )
             }
         }
-        
-        let secondFuncComparison = try FunctionDeclSyntax(.init(
-            stringLiteral: """
-                        /// Check if two instances of your enum have the same case
-                        ///
-                        /// For example,
-                        /// ```
-                        /// @IsCase
-                        /// enum Test {
-                        ///     case test1(String)
-                        /// }
-                        /// let firstValue = Test.test1("first")
-                        /// let secondValue = Test.test1("second")
-                        /// firstValue.is(secondValue) // returns true
-                        /// ```
-                        func `is`(_ otherCase: Self) -> Bool
-                        """
-        )) {
-            ExprSyntax(stringLiteral: "rawCase == otherCase.rawCase")
-        }
 
         return [
             DeclSyntax(companionEnum),
-            DeclSyntax(rawCase),
             DeclSyntax(funcComparison),
-            DeclSyntax(secondFuncComparison)
         ]
     }
     
